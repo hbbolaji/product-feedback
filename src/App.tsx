@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { themeContext } from "./context/ThemeContext";
 import Feedback from "./pages/Feedback";
 import Home from "./pages/Home";
+import Roadmap from "./pages/Roadmap";
 
 function App() {
   const { theme } = useContext(themeContext);
@@ -14,6 +15,7 @@ function App() {
           <Routes>
             <Route index element={<Home />} />
             <Route path="feedback/:id" element={<Feedback />} />
+            <Route path="/roadmap" element={<Roadmap />} />
           </Routes>
         </div>
       </div>
