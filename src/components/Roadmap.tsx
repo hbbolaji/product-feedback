@@ -10,7 +10,7 @@ const roadmaps = [
 
 const Roadmap = () => {
   return (
-    <div className="w-full h-48 rounded-lg bg-white dark:text-white dark:bg-gray-800 py-4 px-8 space-y-4">
+    <div className="w-full min-h-48 rounded-lg bg-white dark:text-white dark:bg-gray-800 py-4 px-8 space-y-4">
       <div className="flex items-center justify-between">
         <p className="text-xl font-bold tracking-wide">Roadmap</p>
         <p className="text-blue-500 underline text-sm font-semibold cursor-pointer tracking-wide">
@@ -18,15 +18,13 @@ const Roadmap = () => {
         </p>
       </div>
       <div>
-        <ul>
-          {roadmaps.map((roadmap) => (
-            <RoadmapItem
-              key={roadmap.title}
-              quantity={roadmap.quantity}
-              title={roadmap.title}
-            />
-          ))}
-        </ul>
+        {roadmaps.map((roadmap) => (
+          <RoadmapItem
+            key={roadmap.title}
+            quantity={roadmap.quantity}
+            title={roadmap.title}
+          />
+        ))}
       </div>
     </div>
   );
