@@ -30,10 +30,10 @@ const Home = () => {
           </div>
         </div>
         <div className="w-full lg:w-3/4 space-y-4 flex flex-col">
-          <Navbar />
+          <Navbar numOfFeedback={feedbacks.length} />
           <div className="space-y-4 p-4 md:p-0">
             {feedbacks.map((feedback) => (
-              <FeedbackCard key={feedback.id} />
+              <FeedbackCard feedback={feedback} key={feedback.id} />
             ))}
           </div>
         </div>
