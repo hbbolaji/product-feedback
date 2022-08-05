@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { themeContext } from "../context/ThemeContext";
 import { BsSun, BsMoon, BsPlus, BsChevronDown } from "react-icons/bs";
 
-const Navbar = () => {
+const Navbar: React.FC<{ numOfFeedback: number }> = ({ numOfFeedback }) => {
   const { theme, changeTheme } = useContext(themeContext);
   return (
     <div className="w-full h-20 md:rounded-lg bg-indigo-900 p-4 flex items-center space-x-8 text-sm">
@@ -13,7 +13,9 @@ const Navbar = () => {
         {theme ? <BsSun /> : <BsMoon />}
       </div>
       <div className="text-white">
-        <p className="text-white text-lg md:text-sm">6 Suggestions</p>
+        <p className="text-white text-lg md:text-sm">
+          {numOfFeedback} Suggestions
+        </p>
       </div>
       <div className="text-white space-x-2 hidden md:flex">
         <p className="text-gray-400">Sort by: </p>
