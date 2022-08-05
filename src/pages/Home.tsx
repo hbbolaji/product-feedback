@@ -1,12 +1,15 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import AppHeader from "../components/AppHeader";
 import FeedbackCard from "../components/FeedbackCard";
 import Navbar from "../components/Navbar";
 import Roadmap from "../components/Roadmap";
 import TagContainer from "../components/TagContainer";
+import { StoreType } from "../store/types";
 
 const Home = () => {
   const [show, setShow] = useState<boolean>(false);
+  const feedbacks = useSelector((state: StoreType) => state.feedbacks);
   const toggle = () => {
     setShow((prevState) => !prevState);
   };
@@ -29,8 +32,8 @@ const Home = () => {
         <div className="w-full lg:w-3/4 space-y-4 flex flex-col">
           <Navbar />
           <div className="space-y-4 p-4 md:p-0">
-            {[1, 2, 3, 4, 5].map((num) => (
-              <FeedbackCard key={num} />
+            {feedbacks.map((feedback) => (
+              <FeedbackCard key={feedback.id} />
             ))}
           </div>
         </div>
