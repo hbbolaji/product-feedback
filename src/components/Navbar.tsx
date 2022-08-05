@@ -2,7 +2,10 @@ import React, { useContext } from "react";
 import { themeContext } from "../context/ThemeContext";
 import { BsSun, BsMoon, BsPlus, BsChevronDown } from "react-icons/bs";
 
-const Navbar: React.FC<{ numOfFeedback: number }> = ({ numOfFeedback }) => {
+const Navbar: React.FC<{ numOfFeedback: number; open: () => void }> = ({
+  numOfFeedback,
+  open,
+}) => {
   const { theme, changeTheme } = useContext(themeContext);
   return (
     <div className="w-full h-20 md:rounded-lg bg-indigo-900 p-4 flex items-center space-x-8 text-sm">
@@ -25,7 +28,10 @@ const Navbar: React.FC<{ numOfFeedback: number }> = ({ numOfFeedback }) => {
         </div>
       </div>
       <div className="flex-1 flex justify-end">
-        <button className="flex items-center py-3 px-4 bg-purple-600 text-white rounded-lg font-semibold">
+        <button
+          className="flex items-center py-3 px-4 bg-purple-600 text-white rounded-lg font-semibold"
+          onClick={open}
+        >
           <BsPlus className="font-bold text-2xl mr-2" />
           Add Feedback
         </button>
