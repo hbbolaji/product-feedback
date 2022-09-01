@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { AiOutlineLeft } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import Comment from "../components/Comment";
 
 import FeedbackCard from "../components/FeedbackCard";
 import FeedbackForm from "../components/FeedbackForm";
@@ -20,19 +21,20 @@ const Feedback = () => {
   const { id } = useParams();
   const feedbacks = useSelector((state: StoreType) => state.feedbacks);
   const feedback = feedbacks.find((feed) => feed.id === id) as FeedbackTypes;
+  const length = feedback.comments?.length || 0;
   return (
     <>
       <div className="2xl:mx-96 xl:mx-56 lg:mx-32 mx-4 md:mx-12 py-24 space-y-4">
         {/* Feedback heading */}
-        <div className="w-full flex space-between items-center">
-          <p
+        <div className="flex justify-between items-center">
+          <div
             className="text-gray-700 dark:text-white flex items-center space-x-1 cursor-pointer"
             onClick={() => navigate("/")}
           >
             {" "}
             <AiOutlineLeft className="text-xl" />
-            <span>go back</span>
-          </p>
+            <p>go back</p>
+          </div>
           <div className="">
             <button
               className="py-3 px-4 bg-purple-600 text-white rounded-lg font-semibold"
@@ -47,8 +49,23 @@ const Feedback = () => {
         <FeedbackCard feedback={feedback} />
 
         {/* Feedback comments */}
-        <div className="bg-white h-96 w-full rounded-lg p-4 dark:bg-gray-800 text-white">
-          Comments
+        <div className="bg-white min:h-48 w-full rounded-lg p-8 dark:bg-gray-800 dark:text-white">
+          {length ? (
+            <div className="space-y-4">
+              <p className="text-xl dark:text-white font-semibold text-gray-500">
+                {length > 1 ? `${length} Comments` : `1 Comment`}
+              </p>
+              <div className="space-y-6">
+                {feedback.comments?.map((comment) => (
+                  <Comment comment={comment} key={comment.id} />
+                ))}
+              </div>
+            </div>
+          ) : (
+            <p className="text-xl dark:text-white font-semibold text-gray-500">
+              No Comments
+            </p>
+          )}
         </div>
 
         {/* Feedback comment addition */}
