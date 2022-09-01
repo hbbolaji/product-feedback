@@ -11,7 +11,7 @@ export interface ReplyType extends CommentType {
 }
 
 export interface FeedbackTypes {
-  id: string;
+  id?: string;
   title: string;
   description: string;
   tag: string;

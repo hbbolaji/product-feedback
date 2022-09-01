@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import AppHeader from "../components/AppHeader";
 import FeedbackCard from "../components/FeedbackCard";
+import FeedbackForm from "../components/FeedbackForm";
 import Modal from "../components/Modal";
 import Navbar from "../components/Navbar";
 import Roadmap from "../components/Roadmap";
@@ -42,14 +43,17 @@ const Home = () => {
             <Navbar numOfFeedback={feedbacks.length} open={openModal} />
             <div className="space-y-4 p-4 md:p-0">
               {feedbacks.map((feedback) => (
-                <FeedbackCard feedback={feedback} key={feedback.id} />
+                <FeedbackCard
+                  feedback={feedback}
+                  key={feedback.id || feedback.title}
+                />
               ))}
             </div>
           </div>
         </div>
       </div>
       <Modal show={showModal} close={closeModal}>
-        <p className="text-gray-800 dark:text-white">Modal</p>
+        <FeedbackForm close={closeModal} />
       </Modal>
     </div>
   );

@@ -20,13 +20,10 @@ const Modal: React.FC<ModalProps> = ({ children, close, show }) => {
           onClick={close}
         >
           <div
-            className="h-72 p-8 w-full sm:w-4/5 rounded-lg bg-white dark:bg-gray-900"
+            className="min-h-72 p-8 w-full sm:w-4/5 lg:w-3/5 xl:w-2/5 rounded-lg bg-white dark:bg-gray-900"
             onClick={(e) => e.stopPropagation()}
           >
             {children}
-            <div className="text-gray-600 dark:text-white" onClick={close}>
-              close
-            </div>
           </div>
         </div>
       )}
