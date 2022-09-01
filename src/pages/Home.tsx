@@ -53,7 +53,7 @@ const Home = () => {
         </div>
       </div>
       <Modal show={showModal} close={closeModal}>
-        <FeedbackForm close={closeModal} />
+        <FeedbackForm close={closeModal} edit={false} />
       </Modal>
     </div>
   );

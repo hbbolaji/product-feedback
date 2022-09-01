@@ -24,7 +24,7 @@ const FeedbackCard: React.FC<PropTypes> = ({ feedback }) => {
         <h4 className="font-semibold tracking-wide text-slate-700 dark:text-slate-100">
           {title}
         </h4>
-        <p className="text-xs text-gray-500 mb-3 dark:text-slate-400">
+        <p className="text-sm text-gray-500 mb-3 dark:text-slate-400">
           {description}
         </p>
         <Tag title={tag} />

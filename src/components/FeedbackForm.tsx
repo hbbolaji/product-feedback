@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FeedbackTypes, StoreType } from "../store/types";
-import { addFeedback } from "../store/actions";
+import { addFeedback, editFeedback } from "../store/actions";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 
 interface Props {
   close: () => void;
+  edit: boolean;
+  feedback?: FeedbackTypes | null;
 }
 
 // TODO: Add Error Messages to the Form
@@ -15,12 +17,12 @@ interface Props {
 //   description?: string;
 // }
 
-const FeedbackForm: React.FC<Props> = ({ close }) => {
+const FeedbackForm: React.FC<Props> = ({ close, edit, feedback }) => {
   // const [error, setError] = useState<ErrorType>({});
   // const error = useRef<ErrorType>({});
   const feedbacks = useSelector((state: StoreType) => state.feedbacks);
   const dispatch = useDispatch();
-  const [feedback, setFeedback] = useState<FeedbackTypes>({
+  const [feed, setFeed] = useState<FeedbackTypes>({
     title: "",
     tag: "",
     upVotes: 0,
@@ -28,6 +30,10 @@ const FeedbackForm: React.FC<Props> = ({ close }) => {
     description: "",
   });
 
+  useEffect(() => {
+    if (edit) setFeed(feedback as FeedbackTypes);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   // const errorMessage = (feedback: any) => {
   //   if (feedback.title === "")
   //     error.current.title = "Title field can not be empty";
@@ -35,21 +41,32 @@ const FeedbackForm: React.FC<Props> = ({ close }) => {
   //   if (feedback.tag === "")
   //     error.current.description = "Description field can not be empty";
   // };
-
-  const onSubmit = (e: any) => {
-    e.preventDefault();
-
-    dispatch(
-      addFeedback({ id: `number ${feedbacks.length + 1}`, ...feedback })
-    );
-    setFeedback({
+  const reset = () => {
+    setFeed({
       title: "",
       tag: "",
       upVotes: 0,
       numberOfComments: 0,
       description: "",
     });
+  };
+  const addToFeedback = () => {
+    dispatch(addFeedback({ id: `number ${feedbacks.length + 1}`, ...feed }));
+    reset();
     close();
+  };
+  const updateFeedback = () => {
+    dispatch(editFeedback(feed));
+    close();
+  };
+
+  const onSubmit = (e: any) => {
+    e.preventDefault();
+    if (edit) {
+      updateFeedback();
+    } else {
+      addToFeedback();
+    }
   };
   return (
     <div>
@@ -63,11 +80,9 @@ const FeedbackForm: React.FC<Props> = ({ close }) => {
               placeholder="Enter feedback title"
               type="text"
               className="w-full dark:bg-gray-900 text-gray-600 dark:text-gray-50 focus:outline-0"
-              value={feedback.title}
+              value={feed.title}
               name="title"
-              onChange={(e) =>
-                setFeedback({ ...feedback, title: e.target.value })
-              }
+              onChange={(e) => setFeed({ ...feed, title: e.target.value })}
             />
           </div>
           <p className="text-sm text-red-500">
@@ -82,18 +97,16 @@ const FeedbackForm: React.FC<Props> = ({ close }) => {
             <select
               placeholder="Pick a tag"
               className="w-full dark:bg-gray-900 text-gray-600 dark:text-gray-50 focus:outline-0"
-              value={feedback.tag}
+              value={feed.tag}
               name="tag"
-              onChange={(e) =>
-                setFeedback({ ...feedback, tag: e.target.value })
-              }
+              onChange={(e) => setFeed({ ...feed, tag: e.target.value })}
             >
               <option value="">Choose tag</option>
-              <option value="ui">UI</option>
-              <option value="ux">UX</option>
-              <option value="feature">Feature</option>
-              <option value="enhancement">Enhancement</option>
-              <option value="bug">Bug</option>
+              <option value="UI">UI</option>
+              <option value="UX">UX</option>
+              <option value="Feature">Feature</option>
+              <option value="Enhancement">Enhancement</option>
+              <option value="Bug">Bug</option>
             </select>
           </div>
           <p className="text-sm text-red-500">
@@ -110,9 +123,9 @@ const FeedbackForm: React.FC<Props> = ({ close }) => {
               rows={4}
               name="description"
               className="w-full dark:bg-gray-900 text-gray-600 dark:text-gray-50 focus:outline-0"
-              value={feedback.description}
+              value={feed.description}
               onChange={(e) =>
-                setFeedback({ ...feedback, description: e.target.value })
+                setFeed({ ...feed, description: e.target.value })
               }
             />
           </div>
@@ -125,7 +138,7 @@ const FeedbackForm: React.FC<Props> = ({ close }) => {
             className="flex items-center py-3 px-4 bg-purple-600 text-white rounded-lg font-semibold"
             onClick={onSubmit}
           >
-            Add Feedback
+            {edit ? "Edit Feedback" : "Add Feedback"}
           </button>
           <button
             className="flex items-center py-3 px-4 bg-purple-600 text-white rounded-lg font-semibold"
