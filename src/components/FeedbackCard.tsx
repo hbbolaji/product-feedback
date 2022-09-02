@@ -24,7 +24,9 @@ const FeedbackCard: React.FC<PropTypes> = ({ feedback }) => {
         onClick={vote}
       >
         <BsChevronUp className="text-blue-500" />
-        <p className="font-semibold text-gray-600 dark:text-white">{upVotes}</p>
+        <p className="font-semibold text-gray-600 dark:text-white select-none">
+          {upVotes}
+        </p>
       </div>
       <div className="flex-1 space-y-3 cursor-pointer">
         <h4
