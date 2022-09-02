@@ -1,4 +1,9 @@
-import { ActionTypes, ADD_FEEDBACK, EDIT_FEEDBACK } from "./actions";
+import {
+  ActionTypes,
+  ADD_FEEDBACK,
+  EDIT_FEEDBACK,
+  UPVOTE_FEEDBACK,
+} from "./actions";
 import { CommentType, StoreType } from "./types";
 
 const comments: CommentType[] = [
@@ -105,6 +110,12 @@ const Reducer = (state: StoreType = defaultState, action: ActionTypes) => {
         (feed) => feed.id !== action.payload.id
       );
       return { feedbacks: [...newFeedback, action.payload] };
+    case UPVOTE_FEEDBACK:
+      const newVote = { ...state }.feedbacks.filter(
+        (feed) => feed.id !== action.payload.id
+      );
+      // console.log(action.payload);
+      return { feedbacks: [...newVote, action.payload] };
     default:
       return state;
   }
