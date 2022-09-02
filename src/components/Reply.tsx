@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { ReplyType } from "../store/types";
+import AddComment from "./AddComment";
 
 interface Props {
   reply: ReplyType;
 }
 
 const Reply: React.FC<Props> = ({ reply }) => {
+  const [show, setShow] = useState<boolean>(false);
+  const close = () => {
+    setShow(false);
+  };
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -20,13 +25,19 @@ const Reply: React.FC<Props> = ({ reply }) => {
             </p>
           </div>
         </div>
-        <p className="text-indigo-500  font-semibold cursor-pointer">Reply</p>
+        <p
+          className="text-indigo-500  font-semibold cursor-pointer"
+          onClick={() => setShow(!show)}
+        >
+          {show ? "Cancel" : "Reply"}
+        </p>
       </div>
       <div className="pl-8 sm:pl-16">
         <p className="text-gray-500 dark:text-gray-200 text-lg leading-relaxed">
           <span className="text-indigo-500">{reply.to}</span> {reply.content}
         </p>
       </div>
+      {show && <AddComment data={reply} replyComment={true} close={close} />}
     </div>
   );
 };

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { AiOutlineLeft } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import AddComment from "../components/AddComment";
 import Comment from "../components/Comment";
 
 import FeedbackCard from "../components/FeedbackCard";
@@ -69,8 +70,8 @@ const Feedback = () => {
         </div>
 
         {/* Feedback comment addition */}
-        <div className="bg-white h-56 w-full rounded-lg p-4 dark:bg-gray-800 text-white">
-          Add comments
+        <div className="bg-white min:h-56 w-full rounded-lg p-4 dark:bg-gray-800 text-white">
+          <AddComment replyComment={false} close={() => {}} />
         </div>
       </div>
       {/* Edit Feedback Modal */}
