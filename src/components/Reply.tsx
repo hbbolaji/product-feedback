@@ -3,10 +3,13 @@ import { ReplyType } from "../store/types";
 import AddComment from "./AddComment";
 
 interface Props {
+  feedbackId: string;
+  commentId: string;
+  to: string;
   reply: ReplyType;
 }
 
-const Reply: React.FC<Props> = ({ reply }) => {
+const Reply: React.FC<Props> = ({ feedbackId, to, commentId, reply }) => {
   const [show, setShow] = useState<boolean>(false);
   const close = () => {
     setShow(false);
@@ -37,7 +40,15 @@ const Reply: React.FC<Props> = ({ reply }) => {
           <span className="text-indigo-500">{reply.to}</span> {reply.content}
         </p>
       </div>
-      {show && <AddComment data={reply} replyComment={true} close={close} />}
+      {show && (
+        <AddComment
+          feedbackId={feedbackId}
+          commentId={commentId}
+          to={to}
+          replyComment={true}
+          close={close}
+        />
+      )}
     </div>
   );
 };

@@ -8,7 +8,7 @@ import Comment from "../components/Comment";
 import FeedbackCard from "../components/FeedbackCard";
 import FeedbackForm from "../components/FeedbackForm";
 import Modal from "../components/Modal";
-import { FeedbackTypes, StoreType } from "../store/types";
+import { StoreType } from "../store/types";
 
 const Feedback = () => {
   const [show, setShow] = useState<boolean>(false);
@@ -20,9 +20,12 @@ const Feedback = () => {
   };
   const navigate = useNavigate();
   const { id } = useParams();
-  const feedbacks = useSelector((state: StoreType) => state.feedbacks);
-  const feedback = feedbacks.find((feed) => feed.id === id) as FeedbackTypes;
-  const length = feedback.comments?.length || 0;
+  const feedbackObj = Object.values(
+    useSelector((state: StoreType) => state.feedbacks)
+  );
+  const feedbacks = feedbackObj.sort((a, b) => b?.upVotes - a?.upVotes);
+  const feedback = feedbacks.find((feed) => feed.id === id);
+  const length = feedback?.comments?.length || 0;
   return (
     <>
       <div className="2xl:mx-96 xl:mx-56 lg:mx-32 mx-4 md:mx-12 py-24 space-y-4">
@@ -57,8 +60,12 @@ const Feedback = () => {
                 {length > 1 ? `${length} Comments` : `1 Comment`}
               </p>
               <div className="space-y-6">
-                {feedback.comments?.map((comment) => (
-                  <Comment comment={comment} key={comment.id} />
+                {feedback?.comments?.map((comment) => (
+                  <Comment
+                    comment={comment}
+                    feedbackId={feedback.id as string}
+                    key={comment.id}
+                  />
                 ))}
               </div>
             </div>
@@ -71,7 +78,11 @@ const Feedback = () => {
 
         {/* Feedback comment addition */}
         <div className="bg-white min:h-56 w-full rounded-lg p-4 dark:bg-gray-800 text-white">
-          <AddComment replyComment={false} close={() => {}} />
+          <AddComment
+            feedbackId={feedback?.id as string}
+            replyComment={false}
+            close={() => {}}
+          />
         </div>
       </div>
       {/* Edit Feedback Modal */}

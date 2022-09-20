@@ -20,7 +20,9 @@ interface Props {
 const FeedbackForm: React.FC<Props> = ({ close, edit, feedback }) => {
   // const [error, setError] = useState<ErrorType>({});
   // const error = useRef<ErrorType>({});
-  const feedbacks = useSelector((state: StoreType) => state.feedbacks);
+  const feedbackObj = Object.keys(
+    useSelector((state: StoreType) => state.feedbacks)
+  );
   const dispatch = useDispatch();
   const [feed, setFeed] = useState<FeedbackTypes>({
     title: "",
@@ -51,7 +53,7 @@ const FeedbackForm: React.FC<Props> = ({ close, edit, feedback }) => {
     });
   };
   const addToFeedback = () => {
-    dispatch(addFeedback({ id: `number ${feedbacks.length + 1}`, ...feed }));
+    dispatch(addFeedback({ id: `number ${feedbackObj.length + 1}`, ...feed }));
     reset();
     close();
   };

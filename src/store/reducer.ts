@@ -42,8 +42,8 @@ const comments: CommentType[] = [
 ];
 
 const defaultState: StoreType = {
-  feedbacks: [
-    {
+  feedbacks: {
+    "number 1": {
       id: "number 1",
       description: "Easier to search for solution based on specific stacks",
       numberOfComments: 2,
@@ -52,7 +52,7 @@ const defaultState: StoreType = {
       upVotes: 112,
       comments: comments,
     },
-    {
+    "number 2": {
       id: "number 2",
       description:
         "It will help people with light sensitivities and people who like dark mode",
@@ -62,7 +62,7 @@ const defaultState: StoreType = {
       upVotes: 99,
       comments: comments,
     },
-    {
+    "number 3": {
       id: "number 3",
       description: "Challenge-specific Q & A will make for easy reference",
       numberOfComments: 1,
@@ -71,7 +71,7 @@ const defaultState: StoreType = {
       upVotes: 65,
       comments,
     },
-    {
+    "number 4": {
       id: "number 4",
       description: "Images and screencast can enhance comments on solutions",
       numberOfComments: 2,
@@ -80,7 +80,7 @@ const defaultState: StoreType = {
       upVotes: 51,
       comments,
     },
-    {
+    "number 5": {
       id: "number 5",
       description: "Stay updated on comments and solutions other people post",
       numberOfComments: 3,
@@ -89,7 +89,7 @@ const defaultState: StoreType = {
       upVotes: 42,
       comments,
     },
-    {
+    "number 6": {
       id: "number 6",
       description: "Challenge Preview image are missing when filter is applied",
       numberOfComments: 0,
@@ -97,7 +97,7 @@ const defaultState: StoreType = {
       title: "Preview Image not loading",
       upVotes: 3,
     },
-  ],
+  },
 };
 
 const Reducer = (state: StoreType = defaultState, action: ActionTypes) => {
@@ -105,23 +105,42 @@ const Reducer = (state: StoreType = defaultState, action: ActionTypes) => {
     case ADD_FEEDBACK:
       return {
         ...state,
-        feedbacks: [...state.feedbacks, action.payload],
+        feedbacks: {
+          ...state.feedbacks,
+          [action.payload.id as string]: action.payload,
+        },
       };
     case EDIT_FEEDBACK:
-      const newFeedback = { ...state }.feedbacks.filter(
-        (feed) => feed.id !== action.payload.id
-      );
-      return { feedbacks: [...newFeedback, action.payload] };
+      return {
+        ...state,
+        feedbacks: {
+          ...state.feedbacks,
+          [action.payload.id as string]: action.payload,
+        },
+      };
     case UPVOTE_FEEDBACK:
-      const newVote = { ...state }.feedbacks.filter(
-        (feed) => feed.id !== action.payload.id
-      );
-      return { feedbacks: [...newVote, action.payload] };
+      return {
+        ...state,
+        feedbacks: {
+          ...state.feedbacks,
+          [action.payload.id as string]: action.payload,
+        },
+      };
     case ADD_COMMENT:
-      console.log("Comment: ", action.payload);
-      return state;
+      const comments =
+        state.feedbacks[action.payload.feedbackId].comments || [];
+      return {
+        ...state,
+        feedbacks: {
+          ...state.feedbacks,
+          [action.payload.feedbackId as string]: {
+            ...state.feedbacks[action.payload.feedbackId],
+            comments: [...comments, action.payload.comment],
+          },
+        },
+      };
     case ADD_REPLY:
-      console.log("Reply: ", action.payload);
+      console.log("Reply", action.payload);
       return state;
     default:
       return state;

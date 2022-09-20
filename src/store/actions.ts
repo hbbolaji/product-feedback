@@ -1,4 +1,4 @@
-import { FeedbackTypes } from "./types";
+import { CommentType, FeedbackTypes, ReplyType } from "./types";
 
 export const ADD_FEEDBACK = "ADD_FEEDBACK";
 export const EDIT_FEEDBACK = "EDIT_FEEDBACK";
@@ -10,8 +10,14 @@ export type ActionTypes =
   | { type: typeof ADD_FEEDBACK; payload: FeedbackTypes }
   | { type: typeof EDIT_FEEDBACK; payload: FeedbackTypes }
   | { type: typeof UPVOTE_FEEDBACK; payload: FeedbackTypes }
-  | { type: typeof ADD_COMMENT; payload: FeedbackTypes }
-  | { type: typeof ADD_REPLY; payload: FeedbackTypes };
+  | {
+      type: typeof ADD_COMMENT;
+      payload: { feedbackId: string; comment: CommentType };
+    }
+  | {
+      type: typeof ADD_REPLY;
+      payload: { feedbackId: string; commentId: string; reply: ReplyType };
+    };
 
 export const addFeedback = (payload: FeedbackTypes): ActionTypes => ({
   type: ADD_FEEDBACK,
@@ -25,11 +31,15 @@ export const upvoteFeedback = (feedback: FeedbackTypes) => ({
   type: UPVOTE_FEEDBACK,
   payload: feedback,
 });
-export const addComment = (feedback: FeedbackTypes) => ({
+export const addComment = (feedbackId: string, comment: CommentType) => ({
   type: ADD_COMMENT,
-  payload: feedback,
+  payload: { comment, feedbackId },
 });
-export const addReply = (feedback: FeedbackTypes) => ({
+export const addReply = (
+  feedbackId: string,
+  commentId: string,
+  reply: ReplyType
+) => ({
   type: ADD_REPLY,
-  payload: feedback,
+  payload: { feedbackId, commentId, reply },
 });

@@ -4,10 +4,11 @@ import AddComment from "./AddComment";
 import Reply from "./Reply";
 
 interface Props {
+  feedbackId: string;
   comment: CommentType;
 }
 
-const Comments: React.FC<Props> = ({ comment }) => {
+const Comments: React.FC<Props> = ({ feedbackId, comment }) => {
   const [show, setShow] = useState<boolean>(false);
   const close = () => {
     setShow(false);
@@ -34,7 +35,15 @@ const Comments: React.FC<Props> = ({ comment }) => {
           {show ? "Cancel" : "Reply"}
         </p>
       </div>
-      {show && <AddComment data={comment} replyComment={true} close={close} />}
+      {show && (
+        <AddComment
+          to={comment.userName}
+          feedbackId={feedbackId}
+          commentId={comment.id}
+          replyComment={true}
+          close={close}
+        />
+      )}
       <div className="pl-4 sm:pl-16">
         <p className="text-gray-500 dark:text-gray-200 text-lg leading-relaxed">
           {comment.content}
@@ -42,7 +51,13 @@ const Comments: React.FC<Props> = ({ comment }) => {
       </div>
       <div className="pl-4 sm:pl-16 space-y-4">
         {comment.reply?.map((rep) => (
-          <Reply reply={rep} key={rep.id} />
+          <Reply
+            reply={rep}
+            commentId={comment.id}
+            feedbackId={feedbackId}
+            to={comment.userName}
+            key={rep.id}
+          />
         ))}
       </div>
     </div>

@@ -21,5 +21,7 @@ export interface FeedbackTypes {
 }
 
 export interface StoreType {
-  feedbacks: FeedbackTypes[];
+  feedbacks: {
+    [key: string]: FeedbackTypes;
+  };
 }
