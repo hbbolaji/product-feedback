@@ -1,5 +1,5 @@
 export interface CommentType {
-  id: string;
+  id?: string;
   userName: string;
   fullName: string;
   content: string;
@@ -10,6 +10,10 @@ export interface ReplyType extends CommentType {
   to: string;
 }
 
+export interface CommentsType {
+  [key: string]: CommentType;
+}
+
 export interface FeedbackTypes {
   id?: string;
   title: string;
@@ -17,7 +21,7 @@ export interface FeedbackTypes {
   tag: string;
   numberOfComments: number;
   upVotes: number;
-  comments?: CommentType[];
+  comments?: CommentsType;
 }
 
 export interface StoreType {

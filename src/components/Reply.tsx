@@ -44,6 +44,7 @@ const Reply: React.FC<Props> = ({ feedbackId, to, commentId, reply }) => {
         <AddComment
           feedbackId={feedbackId}
           commentId={commentId}
+          reply={reply}
           to={to}
           replyComment={true}
           close={close}

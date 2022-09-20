@@ -53,7 +53,7 @@ const Comments: React.FC<Props> = ({ feedbackId, comment }) => {
         {comment.reply?.map((rep) => (
           <Reply
             reply={rep}
-            commentId={comment.id}
+            commentId={comment.id as string}
             feedbackId={feedbackId}
             to={comment.userName}
             key={rep.id}

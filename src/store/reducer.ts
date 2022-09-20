@@ -6,17 +6,17 @@ import {
   EDIT_FEEDBACK,
   UPVOTE_FEEDBACK,
 } from "./actions";
-import { CommentType, StoreType } from "./types";
+import { CommentsType, StoreType } from "./types";
 
-const comments: CommentType[] = [
-  {
-    id: "1",
+const comments: CommentsType = {
+  "comment 1": {
+    id: "comment 1",
     fullName: "Gareth James",
     userName: "@gjames",
     content: "Also please allow style to be applied based on system preference",
     reply: [
       {
-        id: "i",
+        id: "reply 1",
         to: "@gjames",
         fullName: "drake boy",
         userName: "@dboy",
@@ -24,7 +24,7 @@ const comments: CommentType[] = [
           "while waiting for this, you can use browser extension for dark mode",
       },
       {
-        id: "ii",
+        id: "reply 2",
         to: "@dboy",
         fullName: "Missy Sheldon",
         userName: "@msheldon",
@@ -33,13 +33,13 @@ const comments: CommentType[] = [
       },
     ],
   },
-  {
-    id: "2",
+  "comment 2": {
+    id: "comment 2",
     fullName: "Jane Smith",
     userName: "@smithj",
     content: "I second this! I do alot of late night coding and reading",
   },
-];
+};
 
 const defaultState: StoreType = {
   feedbacks: {
@@ -128,20 +128,49 @@ const Reducer = (state: StoreType = defaultState, action: ActionTypes) => {
       };
     case ADD_COMMENT:
       const comments =
-        state.feedbacks[action.payload.feedbackId].comments || [];
+        state.feedbacks[action.payload.feedbackId].comments || {};
+      const commentLength = Object.keys(comments).length;
       return {
         ...state,
         feedbacks: {
           ...state.feedbacks,
           [action.payload.feedbackId as string]: {
             ...state.feedbacks[action.payload.feedbackId],
-            comments: [...comments, action.payload.comment],
+            comments: {
+              ...comments,
+              [`comment ${Number(commentLength) + 1}`]: {
+                id: "comment " + (Number(commentLength) + 1),
+                ...action.payload.comment,
+              },
+            },
           },
         },
       };
     case ADD_REPLY:
-      console.log("Reply", action.payload);
-      return state;
+      const stateComment =
+        state.feedbacks[action.payload.feedbackId].comments || {};
+      const replies = stateComment[action.payload.commentId]?.reply || [];
+      const replyLength = replies.length;
+      const newReply = [
+        ...replies,
+        { id: "reply " + (replyLength + 1), ...action.payload.reply },
+      ];
+      return {
+        ...state,
+        feedbacks: {
+          ...state.feedbacks,
+          [action.payload.feedbackId as string]: {
+            ...state.feedbacks[action.payload.feedbackId],
+            comments: {
+              ...stateComment,
+              [action.payload.commentId]: {
+                ...stateComment[action.payload.commentId],
+                reply: newReply,
+              },
+            },
+          },
+        },
+      };
     default:
       return state;
   }

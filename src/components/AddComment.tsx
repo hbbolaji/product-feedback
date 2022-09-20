@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addComment, addReply } from "../store/actions";
-// import { CommentType, ReplyType } from "../store/types";
+import { ReplyType } from "../store/types";
 
 interface Props {
   close: () => void;
   replyComment: boolean;
+  reply?: ReplyType;
   feedbackId: string;
   commentId?: string;
   to?: string;
@@ -16,30 +17,30 @@ const AddComment: React.FC<Props> = ({
   commentId,
   to,
   replyComment,
+  reply,
   close,
 }) => {
   const dispatch = useDispatch();
   const [comment, setComment] = useState<string>("");
   const submitComment = () => {
     if (replyComment) {
-      const reply = {
-        id: "",
+      const replyData = {
         content: comment,
         fullName: "Bolaji Bello",
         userName: "@bolajib",
-        to: to as string,
-        reply: [],
+        to: reply ? reply?.userName : (to as string),
       };
-      dispatch(addReply(feedbackId, commentId as string, reply));
+      dispatch(addReply(feedbackId, commentId as string, replyData));
+      setComment("");
     } else {
       const commentData = {
-        id: "",
         content: comment,
         fullName: "Bolaji Bello",
         userName: "@bolajib",
         reply: [],
       };
       dispatch(addComment(feedbackId, commentData));
+      setComment("");
     }
     close();
   };

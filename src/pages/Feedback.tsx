@@ -25,7 +25,8 @@ const Feedback = () => {
   );
   const feedbacks = feedbackObj.sort((a, b) => b?.upVotes - a?.upVotes);
   const feedback = feedbacks.find((feed) => feed.id === id);
-  const length = feedback?.comments?.length || 0;
+  const length = Object.keys(feedback?.comments || {}).length;
+  const comments = Object.values(feedback?.comments || {});
   return (
     <>
       <div className="2xl:mx-96 xl:mx-56 lg:mx-32 mx-4 md:mx-12 py-24 space-y-4">
@@ -60,10 +61,10 @@ const Feedback = () => {
                 {length > 1 ? `${length} Comments` : `1 Comment`}
               </p>
               <div className="space-y-6">
-                {feedback?.comments?.map((comment) => (
+                {comments?.map((comment) => (
                   <Comment
                     comment={comment}
-                    feedbackId={feedback.id as string}
+                    feedbackId={feedback?.id as string}
                     key={comment.id}
                   />
                 ))}
