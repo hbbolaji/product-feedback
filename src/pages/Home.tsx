@@ -5,7 +5,7 @@ import FeedbackCard from "../components/FeedbackCard";
 import FeedbackForm from "../components/FeedbackForm";
 import Modal from "../components/Modal";
 import Navbar from "../components/Navbar";
-import Roadmap from "../components/Roadmap";
+import RoadmapHeader from "../components/RoadmapHeader";
 import TagContainer from "../components/TagContainer";
 import { StoreType } from "../store/types";
 
@@ -39,7 +39,7 @@ const Home = () => {
               }`}
             >
               <TagContainer />
-              <Roadmap />
+              <RoadmapHeader />
             </div>
           </div>
           <div className="w-full lg:w-3/4 space-y-4 flex flex-col">

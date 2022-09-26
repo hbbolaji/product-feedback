@@ -8,7 +8,7 @@ const roadmaps = [
   { title: "Live", quantity: 1 },
 ];
 
-const Roadmap = () => {
+const RoadmapHeader = () => {
   return (
     <div className="w-full min-h-48 rounded-lg bg-white dark:text-white dark:bg-gray-800 py-4 px-8 space-y-4">
       <div className="flex items-center justify-between">
@@ -30,4 +30,4 @@ const Roadmap = () => {
   );
 };
 
-export default Roadmap;
+export default RoadmapHeader;

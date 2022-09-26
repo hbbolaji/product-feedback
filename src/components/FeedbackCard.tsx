@@ -11,7 +11,10 @@ type PropTypes = {
 };
 
 const FeedbackCard: React.FC<PropTypes> = ({ feedback }) => {
-  const { title, upVotes, description, tag, numberOfComments } = feedback;
+  const numberOfComments = feedback.comments
+    ? Object.keys(feedback.comments).length
+    : 0;
+  const { title, upVotes, description, tag } = feedback;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const vote = () => {

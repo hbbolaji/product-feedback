@@ -10,7 +10,7 @@ const Tag: React.FC<{ title: string }> = ({ title }) => {
       onClick={toggleSelect}
       className={`px-5 rounded-lg ${select ? "bg-blue-600" : "bg-gray-100"} ${
         select ? "dark:bg-blue-600" : "dark:bg-gray-700"
-      }  h-8 m-1 cursor-pointer inline-flex items-center`}
+      }  h-8 cursor-pointer inline-flex items-center`}
     >
       <p
         className={`text-sm font-semibold ${
