@@ -17,6 +17,7 @@ export interface CommentsType {
 export interface FeedbackTypes {
   id?: string;
   title: string;
+  status: "Planned" | "In-Progress" | "Live";
   description: string;
   tag: string;
   numberOfComments: number;

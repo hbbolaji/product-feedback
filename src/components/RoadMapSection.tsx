@@ -1,10 +1,11 @@
 import React from "react";
+import { FeedbackTypes } from "../store/types";
 import RoadmapCard from "./RoadmapCard";
 
 interface Props {
   title: "Planned" | "In-Progress" | "Live";
   description: string;
-  feedbacks: any[];
+  feedbacks: FeedbackTypes[];
 }
 
 const RoadMapSection: React.FC<Props> = ({ title, description, feedbacks }) => {
@@ -16,8 +17,8 @@ const RoadMapSection: React.FC<Props> = ({ title, description, feedbacks }) => {
       </div>
       <div className="space-y-4">
         {feedbacks.map((roadmap) => (
-          <div key={roadmap}>
-            <RoadmapCard title={title} />
+          <div key={roadmap.id}>
+            <RoadmapCard title={title} feedback={roadmap} />
           </div>
         ))}
       </div>

@@ -29,6 +29,7 @@ const FeedbackForm: React.FC<Props> = ({ close, edit, feedback }) => {
     tag: "",
     upVotes: 0,
     numberOfComments: 0,
+    status: "Planned",
     description: "",
   });
 
@@ -36,19 +37,13 @@ const FeedbackForm: React.FC<Props> = ({ close, edit, feedback }) => {
     if (edit) setFeed(feedback as FeedbackTypes);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // const errorMessage = (feedback: any) => {
-  //   if (feedback.title === "")
-  //     error.current.title = "Title field can not be empty";
-  //   if (feedback.tag === "") error.current.tags = "Choose a tag";
-  //   if (feedback.tag === "")
-  //     error.current.description = "Description field can not be empty";
-  // };
   const reset = () => {
     setFeed({
       title: "",
       tag: "",
       upVotes: 0,
       numberOfComments: 0,
+      status: "Planned",
       description: "",
     });
   };
@@ -109,6 +104,33 @@ const FeedbackForm: React.FC<Props> = ({ close, edit, feedback }) => {
               <option value="Feature">Feature</option>
               <option value="Enhancement">Enhancement</option>
               <option value="Bug">Bug</option>
+            </select>
+          </div>
+          <p className="text-sm text-red-500">
+            {/* {error.current.tags && error.current.tags} */}
+          </p>
+        </div>
+        <div className="space-y-2">
+          <label className="text-gray-700 dark:text-gray-50 text-lg font-semibold">
+            Status
+          </label>
+          <div className="border border-gray-600 dark:border-gray-50 rounded-lg p-4">
+            <select
+              placeholder="Pick a tag"
+              className="w-full dark:bg-gray-900 text-gray-600 dark:text-gray-50 focus:outline-0"
+              value={feed.status}
+              name="status"
+              onChange={(e) =>
+                setFeed({
+                  ...feed,
+                  status: e.target.value as "Planned" | "Live" | "In-Progress",
+                })
+              }
+            >
+              <option value="">Choose tag</option>
+              <option value="Planned">Planned</option>
+              <option value="In-Progress">In-Progress</option>
+              <option value="Live">Live</option>
             </select>
           </div>
           <p className="text-sm text-red-500">

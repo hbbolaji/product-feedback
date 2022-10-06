@@ -34,7 +34,7 @@ const Feedback = () => {
         <div className="flex justify-between items-center">
           <div
             className="text-gray-700 dark:text-white flex items-center space-x-1 cursor-pointer"
-            onClick={() => navigate("/")}
+            onClick={() => navigate(-1)}
           >
             {" "}
             <AiOutlineLeft className="text-xl" />
