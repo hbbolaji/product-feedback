@@ -41,7 +41,7 @@ const RoadmapCard: React.FC<Props> = ({ title, feedback }) => {
         {feedback.title}
       </p>
       <div>
-        <Tag title={feedback.tag} />
+        <Tag title={feedback.tag} handleSelect={() => {}} active={false} />
       </div>
       <div className="flex items-center justify-between">
         <div

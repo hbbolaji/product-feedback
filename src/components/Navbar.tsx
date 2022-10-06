@@ -40,16 +40,14 @@ const Navbar: React.FC<{
       {back && (
         <div className="space-y-2">
           <div
-            className="text-gray-700 dark:text-white text-sm flex items-center space-x-1 cursor-pointer"
+            className="text-white text-sm flex items-center space-x-1 cursor-pointer"
             onClick={() => navigate(-1)}
           >
             {" "}
             <AiOutlineLeft className="text-xl" />
             <p>go back</p>
           </div>
-          <h2 className="text-gray-700 dark:text-white font-semibold text-xl">
-            Roadmap
-          </h2>
+          <h2 className="text-white font-semibold text-xl">Roadmap</h2>
         </div>
       )}
       <div className="flex-1 flex justify-end">

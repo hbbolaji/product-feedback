@@ -4,9 +4,10 @@ import {
   ADD_FEEDBACK,
   ADD_REPLY,
   EDIT_FEEDBACK,
+  FILTER_TAG,
   UPVOTE_FEEDBACK,
 } from "./actions";
-import { CommentsType, StoreType } from "./types";
+import { CommentsType, FeedbackTypes, StoreType } from "./types";
 
 const comments: CommentsType = {
   "comment 1": {
@@ -41,69 +42,73 @@ const comments: CommentsType = {
   },
 };
 
-const defaultState: StoreType = {
-  feedbacks: {
-    "number 1": {
-      id: "number 1",
-      description: "Easier to search for solution based on specific stacks",
-      numberOfComments: 2,
-      tag: "Enhancement",
-      title: "Add tags for solutions",
-      upVotes: 112,
-      status: "Planned",
-      comments: comments,
-    },
-    "number 2": {
-      id: "number 2",
-      description:
-        "It will help people with light sensitivities and people who like dark mode",
-      numberOfComments: 4,
-      tag: "Feature",
-      title: "Add dark theme option",
-      status: "In-Progress",
-      upVotes: 99,
-      comments: comments,
-    },
-    "number 3": {
-      id: "number 3",
-      description: "Challenge-specific Q & A will make for easy reference",
-      numberOfComments: 1,
-      tag: "Feature",
-      title: "Q & A within the challenge hubs",
-      status: "Live",
-      upVotes: 65,
-      comments,
-    },
-    "number 4": {
-      id: "number 4",
-      description: "Images and screencast can enhance comments on solutions",
-      numberOfComments: 2,
-      tag: "Enhancement",
-      title: "Allow Image/Video upload to Feedback",
-      status: "Planned",
-      upVotes: 51,
-      comments,
-    },
-    "number 5": {
-      id: "number 5",
-      description: "Stay updated on comments and solutions other people post",
-      numberOfComments: 3,
-      tag: "Feature",
-      title: "Ability to follow others",
-      status: "In-Progress",
-      upVotes: 42,
-      comments,
-    },
-    "number 6": {
-      id: "number 6",
-      description: "Challenge Preview image are missing when filter is applied",
-      numberOfComments: 0,
-      tag: "Bug",
-      title: "Preview Image not loading",
-      status: "Live",
-      upVotes: 3,
-    },
+const feeds: {
+  [key: string]: FeedbackTypes;
+} = {
+  "number 1": {
+    id: "number 1",
+    description: "Easier to search for solution based on specific stacks",
+    numberOfComments: 2,
+    tag: "Enhancement",
+    title: "Add tags for solutions",
+    upVotes: 112,
+    status: "Planned",
+    comments: comments,
   },
+  "number 2": {
+    id: "number 2",
+    description:
+      "It will help people with light sensitivities and people who like dark mode",
+    numberOfComments: 4,
+    tag: "Feature",
+    title: "Add dark theme option",
+    status: "In-Progress",
+    upVotes: 99,
+    comments: comments,
+  },
+  "number 3": {
+    id: "number 3",
+    description: "Challenge-specific Q & A will make for easy reference",
+    numberOfComments: 1,
+    tag: "Feature",
+    title: "Q & A within the challenge hubs",
+    status: "Live",
+    upVotes: 65,
+    comments,
+  },
+  "number 4": {
+    id: "number 4",
+    description: "Images and screencast can enhance comments on solutions",
+    numberOfComments: 2,
+    tag: "Enhancement",
+    title: "Allow Image/Video upload to Feedback",
+    status: "Planned",
+    upVotes: 51,
+    comments,
+  },
+  "number 5": {
+    id: "number 5",
+    description: "Stay updated on comments and solutions other people post",
+    numberOfComments: 3,
+    tag: "Feature",
+    title: "Ability to follow others",
+    status: "In-Progress",
+    upVotes: 42,
+    comments,
+  },
+  "number 6": {
+    id: "number 6",
+    description: "Challenge Preview image are missing when filter is applied",
+    numberOfComments: 0,
+    tag: "Bug",
+    title: "Preview Image not loading",
+    status: "Live",
+    upVotes: 3,
+  },
+};
+
+const defaultState: StoreType = {
+  feedbacks: { ...feeds },
 };
 
 const Reducer = (state: StoreType = defaultState, action: ActionTypes) => {
@@ -176,6 +181,19 @@ const Reducer = (state: StoreType = defaultState, action: ActionTypes) => {
             },
           },
         },
+      };
+    case FILTER_TAG:
+      const feedbacks = Object.values(feeds).filter(
+        (feed) => feed.tag === action.payload.tag
+      );
+
+      const finalObj = feedbacks.reduce(
+        (obj, item) => Object.assign(obj, { [item.id as string]: item }),
+        {}
+      );
+      return {
+        ...state,
+        feedbacks: action.payload.tag === "All" ? feeds : finalObj,
       };
     default:
       return state;

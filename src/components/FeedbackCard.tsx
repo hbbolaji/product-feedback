@@ -41,7 +41,7 @@ const FeedbackCard: React.FC<PropTypes> = ({ feedback }) => {
         <p className="text-sm text-gray-500 mb-3 dark:text-slate-400">
           {description}
         </p>
-        <Tag title={tag} />
+        <Tag title={tag} handleSelect={() => {}} active={false} />
         <div className="flex sm:hidden justify-between">
           <div
             className="bg-gray-100 dark:bg-gray-700 h-1/2 rounded-xl px-2 py-2 flex flex-col items-center justify-center space-y-1 cursor-pointer"
