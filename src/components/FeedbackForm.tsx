@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { FeedbackTypes, StoreType } from "../store/types";
+import { FeedbackTypes } from "../store/types";
 import { addFeedback, editFeedback } from "../store/actions";
 import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { v4 as uuid } from "uuid";
 
 interface Props {
   close: () => void;
@@ -10,19 +10,7 @@ interface Props {
   feedback?: FeedbackTypes | null;
 }
 
-// TODO: Add Error Messages to the Form
-// interface ErrorType {
-//   title?: string;
-//   tags?: string;
-//   description?: string;
-// }
-
 const FeedbackForm: React.FC<Props> = ({ close, edit, feedback }) => {
-  // const [error, setError] = useState<ErrorType>({});
-  // const error = useRef<ErrorType>({});
-  const feedbackObj = Object.keys(
-    useSelector((state: StoreType) => state.feedbacks)
-  );
   const dispatch = useDispatch();
   const [feed, setFeed] = useState<FeedbackTypes>({
     title: "",
@@ -48,7 +36,7 @@ const FeedbackForm: React.FC<Props> = ({ close, edit, feedback }) => {
     });
   };
   const addToFeedback = () => {
-    dispatch(addFeedback({ id: `number ${feedbackObj.length + 1}`, ...feed }));
+    dispatch(addFeedback({ id: uuid(), ...feed }));
     reset();
     close();
   };

@@ -12,10 +12,10 @@ import { StoreType } from "../store/types";
 const Home = () => {
   const [show, setShow] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
-  const feedbackObj = Object.values(
+  const feedbacks = Object.values(
     useSelector((state: StoreType) => state.feedbacks)
   );
-  const feedbacks = feedbackObj.sort((a, b) => b?.upVotes - a?.upVotes);
+  // const feedbacks = feedbackObj.sort((a, b) => b?.upVotes - a?.upVotes);
   const openModal = () => {
     setShowModal(true);
   };

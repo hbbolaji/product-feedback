@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { v4 as uuid } from "uuid";
 import { addComment, addReply } from "../store/actions";
 import { ReplyType } from "../store/types";
 
@@ -25,6 +26,7 @@ const AddComment: React.FC<Props> = ({
   const submitComment = () => {
     if (replyComment) {
       const replyData = {
+        id: uuid(),
         content: comment,
         fullName: "Bolaji Bello",
         userName: "@bolajib",
@@ -34,6 +36,7 @@ const AddComment: React.FC<Props> = ({
       setComment("");
     } else {
       const commentData = {
+        id: uuid(),
         content: comment,
         fullName: "Bolaji Bello",
         userName: "@bolajib",

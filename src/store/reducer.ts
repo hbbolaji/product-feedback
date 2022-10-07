@@ -5,19 +5,20 @@ import {
   ADD_REPLY,
   EDIT_FEEDBACK,
   FILTER_TAG,
+  SORT_FEEDBACK,
   UPVOTE_FEEDBACK,
 } from "./actions";
 import { CommentsType, FeedbackTypes, StoreType } from "./types";
 
 const comments: CommentsType = {
-  "comment 1": {
-    id: "comment 1",
+  "55a9d0a7-b407-4c71-bcfb-d2cb811ca8ab": {
+    id: "55a9d0a7-b407-4c71-bcfb-d2cb811ca8ab",
     fullName: "Gareth James",
     userName: "@gjames",
     content: "Also please allow style to be applied based on system preference",
     reply: [
       {
-        id: "reply 1",
+        id: "71bde173-3dc9-4665-a0a6-08ef622bd18a",
         to: "@gjames",
         fullName: "drake boy",
         userName: "@dboy",
@@ -25,7 +26,7 @@ const comments: CommentsType = {
           "while waiting for this, you can use browser extension for dark mode",
       },
       {
-        id: "reply 2",
+        id: "231d7131-925f-41c7-a5b6-d805a1344f8b",
         to: "@dboy",
         fullName: "Missy Sheldon",
         userName: "@msheldon",
@@ -34,8 +35,8 @@ const comments: CommentsType = {
       },
     ],
   },
-  "comment 2": {
-    id: "comment 2",
+  "a0509949-593c-4e3c-b3b0-46e4b5253fd1": {
+    id: "a0509949-593c-4e3c-b3b0-46e4b5253fd1",
     fullName: "Jane Smith",
     userName: "@smithj",
     content: "I second this! I do alot of late night coding and reading",
@@ -45,8 +46,8 @@ const comments: CommentsType = {
 const feeds: {
   [key: string]: FeedbackTypes;
 } = {
-  "number 1": {
-    id: "number 1",
+  "0ed93612-18f1-43a0-96e6-181191c07b37": {
+    id: "0ed93612-18f1-43a0-96e6-181191c07b37",
     description: "Easier to search for solution based on specific stacks",
     numberOfComments: 2,
     tag: "Enhancement",
@@ -55,8 +56,8 @@ const feeds: {
     status: "Planned",
     comments: comments,
   },
-  "number 2": {
-    id: "number 2",
+  "04024ada-5a27-4d10-9387-864d0f491a40": {
+    id: "04024ada-5a27-4d10-9387-864d0f491a40",
     description:
       "It will help people with light sensitivities and people who like dark mode",
     numberOfComments: 4,
@@ -66,8 +67,8 @@ const feeds: {
     upVotes: 99,
     comments: comments,
   },
-  "number 3": {
-    id: "number 3",
+  "154db9c8-ea8c-4789-b160-8c87178c35df": {
+    id: "154db9c8-ea8c-4789-b160-8c87178c35df",
     description: "Challenge-specific Q & A will make for easy reference",
     numberOfComments: 1,
     tag: "Feature",
@@ -76,8 +77,8 @@ const feeds: {
     upVotes: 65,
     comments,
   },
-  "number 4": {
-    id: "number 4",
+  "90023ea0-1900-4222-a600-d2d1cabd6b06": {
+    id: "90023ea0-1900-4222-a600-d2d1cabd6b06",
     description: "Images and screencast can enhance comments on solutions",
     numberOfComments: 2,
     tag: "Enhancement",
@@ -86,8 +87,8 @@ const feeds: {
     upVotes: 51,
     comments,
   },
-  "number 5": {
-    id: "number 5",
+  "2bc64bd9-5ce6-4c3f-a83d-61694569a122": {
+    id: "2bc64bd9-5ce6-4c3f-a83d-61694569a122",
     description: "Stay updated on comments and solutions other people post",
     numberOfComments: 3,
     tag: "Feature",
@@ -96,8 +97,8 @@ const feeds: {
     upVotes: 42,
     comments,
   },
-  "number 6": {
-    id: "number 6",
+  "cae2659b-049c-4fcc-8a9e-edbe522ba7b9": {
+    id: "cae2659b-049c-4fcc-8a9e-edbe522ba7b9",
     description: "Challenge Preview image are missing when filter is applied",
     numberOfComments: 0,
     tag: "Bug",
@@ -140,7 +141,6 @@ const Reducer = (state: StoreType = defaultState, action: ActionTypes) => {
     case ADD_COMMENT:
       const comments =
         state.feedbacks[action.payload.feedbackId].comments || {};
-      const commentLength = Object.keys(comments).length;
       return {
         ...state,
         feedbacks: {
@@ -149,8 +149,7 @@ const Reducer = (state: StoreType = defaultState, action: ActionTypes) => {
             ...state.feedbacks[action.payload.feedbackId],
             comments: {
               ...comments,
-              [`comment ${Number(commentLength) + 1}`]: {
-                id: "comment " + (Number(commentLength) + 1),
+              [action.payload.comment.id as string]: {
                 ...action.payload.comment,
               },
             },
@@ -161,11 +160,7 @@ const Reducer = (state: StoreType = defaultState, action: ActionTypes) => {
       const stateComment =
         state.feedbacks[action.payload.feedbackId].comments || {};
       const replies = stateComment[action.payload.commentId]?.reply || [];
-      const replyLength = replies.length;
-      const newReply = [
-        ...replies,
-        { id: "reply " + (replyLength + 1), ...action.payload.reply },
-      ];
+      const newReply = [...replies, { ...action.payload.reply }];
       return {
         ...state,
         feedbacks: {
@@ -195,6 +190,12 @@ const Reducer = (state: StoreType = defaultState, action: ActionTypes) => {
         ...state,
         feedbacks: action.payload.tag === "All" ? feeds : finalObj,
       };
+    case SORT_FEEDBACK:
+      const sortedFeedbackObj = action.payload.feedbacks.reduce(
+        (obj, item) => Object.assign(obj, { [item.id as string]: item }),
+        {}
+      );
+      return { ...state, feedbacks: sortedFeedbackObj };
     default:
       return state;
   }

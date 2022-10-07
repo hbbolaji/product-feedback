@@ -1,14 +1,17 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { themeContext } from "../context/ThemeContext";
 import { BsSun, BsMoon, BsPlus, BsChevronDown } from "react-icons/bs";
 import { AiOutlineLeft } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+import Submenu from "./Submenu";
 
 const Navbar: React.FC<{
   numOfFeedback: number;
   open: () => void;
   back?: boolean;
 }> = ({ numOfFeedback, open, back }) => {
+  const [show, setShow] = useState<boolean>(false);
+  const [sortTitle, setSortTitle] = useState<string>("Most Upvotes");
   const navigate = useNavigate();
   const { theme, changeTheme } = useContext(themeContext);
   return (
@@ -29,12 +32,18 @@ const Navbar: React.FC<{
         </div>
       )}
       {!back && (
-        <div className="text-white space-x-2 hidden md:flex">
+        <div
+          className="text-white space-x-2 hidden md:flex relative select-none"
+          onClick={() => setShow((prev) => !prev)}
+        >
           <p className="text-gray-400">Sort by: </p>
           <div className="flex items-center space-x-1 cursor-pointer">
-            <p className="font-semibold">Most Upvotes</p>
+            <p className="font-semibold">{sortTitle}</p>
             <BsChevronDown />
           </div>
+          {show && (
+            <Submenu changeSortTitle={(sort: string) => setSortTitle(sort)} />
+          )}
         </div>
       )}
       {back && (

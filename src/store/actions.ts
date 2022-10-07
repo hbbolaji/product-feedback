@@ -6,6 +6,7 @@ export const UPVOTE_FEEDBACK = "UPVOTE_FEEDBACK";
 export const ADD_COMMENT = "ADD_COMMENT";
 export const ADD_REPLY = "ADD_REPLY";
 export const FILTER_TAG = "FILTER_TAG";
+export const SORT_FEEDBACK = "SORT_FEEDBACK";
 
 export type ActionTypes =
   | { type: typeof ADD_FEEDBACK; payload: FeedbackTypes }
@@ -25,6 +26,10 @@ export type ActionTypes =
         tag: string;
         feedbacks: FeedbackTypes[];
       };
+    }
+  | {
+      type: typeof SORT_FEEDBACK;
+      payload: { feedbacks: FeedbackTypes[] };
     };
 
 export const addFeedback = (payload: FeedbackTypes): ActionTypes => ({
@@ -54,4 +59,8 @@ export const addReply = (
 export const filterTag = (tag: string, feedbacks: FeedbackTypes[]) => ({
   type: FILTER_TAG,
   payload: { tag, feedbacks },
+});
+export const sortFeedback = (feedbacks: FeedbackTypes[]) => ({
+  type: SORT_FEEDBACK,
+  payload: { feedbacks },
 });
